@@ -35,16 +35,17 @@ class Core extends Controller {
                         }
                     }
                 }
-                
             }
         }
 
-        if(!in_array($url, (array)Route::getRoutes())) $errors[] = '[Framework59] Route does not exist for: ' . $url;
 
         if(!isset($this->currentController) || !isset($this->currentMethod)) {
-            $errors[] = '[Framework59] Controller ' . $this->currentController . ' or Method' . $this->currentMethod . ' does not exists';
-            require_once 'errorpages/404.php';
-            return;
+            $errors = [];
+            if(config['DEBUG_MODE']) {
+                if(!in_array($url, (array)Route::getRoutes())) $errors[] = '[Framework59] Route does not exist for: ' . $url;
+                $errors[] = '[Framework59] Controller ' . $this->currentController . ' or Method' . $this->currentMethod . ' does not exists';
+            }
+            self::send404($errors);
         } 
 
         $controller = new $this->currentController;
@@ -63,5 +64,24 @@ class Core extends Controller {
             $url = filter_var($url, FILTER_SANITIZE_URL);
             return $url;
         }
+    }
+
+    public static function send500($errors) {
+        require_once 'errorpages/500.php';
+        return die();
+        
+    }
+
+    public static function send403($errors) {
+        require_once 'errorpages/403.php';
+        return die();
+        
+    }
+
+    public static function send404($errors) {
+        require_once 'errorpages/404.php';
+        return die();
+        
+        
     }
 }

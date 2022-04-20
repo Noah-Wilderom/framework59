@@ -2,8 +2,10 @@
 namespace Framework59\App;
 
 use Exception;
+use Framework59\Model;
 
 class Controller {
+
 
     public function view(string $view, array $data = []) {
         $arr = explode('.', $view);

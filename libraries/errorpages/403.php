@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 Error</title>
+    <title>404 Error - Framework59</title>
     <style>
         body {
             text-align: center;
@@ -12,12 +12,29 @@
         }
         p {
             font-size: 20px;
+            padding-bottom: 50px;
         }
 
+        code {
+            background-color: lightgrey;
+            border-radius: 5px;
+            padding: 5px;
+            color: red;
+            line-height: 35px;
+        }
     </style>
 </head>
 <body>
     <h1>403 Error</h1>
-    <p>You are not authorized!</p>
+    <p>Not authorized!</p>
+    <?php if(config['DEBUG_MODE'] && count($errors) > 0) { ?>
+    <code>
+        <?php 
+            foreach($errors as $error) {
+                echo $error;
+                echo "<br>";
+            }        ?>
+    </code>
+    <?php } ?>
 </body>
 </html>

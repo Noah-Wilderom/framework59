@@ -4,14 +4,15 @@ namespace Framework59;
 use Framework59\Database;
 
 class Model {
-    protected static $conn;
+    protected $conn;
+    protected static $table;
 
     public function __construct() {
-        self::$conn = new Database;
+        $this->conn = new Database();
     }
 
     public static function where() {
-        return self::$conn->query('SELECT * FROM ' . $this->table . 'WHERE')
+        return 'test';
     }
 
     public static function get() {
@@ -19,11 +20,14 @@ class Model {
     }
 
     public static function all() {
-
-    }
-
-    public static function where() {
-
+        $instance = new self();
+        $instance->conn->query('SELECT * FROM ' . self::$table);
+        if(empty($instance->conn->resultSet())) {
+            if(!config['DEBUG_MODE']) return;
+            Core::send500(['[Framework59] No result found in ' . self::$table . '(' . 'SELECT * FROM ' . self::$table . ')']);
+            return;
+        }
+        return $instance->conn->resultSet();
     }
 
     
