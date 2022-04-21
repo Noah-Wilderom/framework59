@@ -1,0 +1,8 @@
+<?php
+namespace Framework59\App\Http\Controllers;
+
+use Framework59\App\Controller;
+
+class [Controller] extends Controller {
+    //
+}

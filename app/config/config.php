@@ -2,7 +2,7 @@
 define('config', [
     'APP_NAME' => 'Framework59',
     'URLROOT' => 'http://localhost/framework59',
-    'DEBUG_MODE' => true,
+    'DEBUG_MODE' => false,
     
     // Database
     'DB_HOST' => 'localhost',
