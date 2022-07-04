@@ -18,17 +18,22 @@ class Core extends Controller {
     protected $params;
     protected $errors;
 
-    public function __construct() {
+    public function __construct() 
+    {
         $errors = is_array($this->errors) ? $this->errors : [];
         $url = $this->getUrl();
-        foreach(Route::getRoutes() as $route) {
+        foreach(Route::getRoutes() as $route) 
+        {
             $route = (object) $route;
             if($route->path == $url || $route->path == '/') {
-                if($url == '' || $route->path == $url) {
+                if($url == '' || $route->path == $url) 
+                {
                     require_once '../app/Http/Controllers/' . explode('\Controllers\\', $route->controller)[1] . '.php';
-                    if(class_exists($route->controller)) {
+                    if(class_exists($route->controller)) 
+                    {
                         $obj = new $route->controller;
-                        if(method_exists($obj, $route->method) && $obj instanceof $route->controller) {
+                        if(method_exists($obj, $route->method) && $obj instanceof $route->controller) 
+                        {
                             $this->currentController = $route->controller;
                             $this->currentMethod = $route->method;
                             $this->params = $route->params;
@@ -39,24 +44,37 @@ class Core extends Controller {
         }
 
 
-        if(!isset($this->currentController) || !isset($this->currentMethod)) {
+        if(!isset($this->currentController) || !isset($this->currentMethod))
+        {
             $errors = [];
-            if(config['DEBUG_MODE']) {
+            if(config['DEBUG_MODE'])
+            {
+                if($url != null)
+                {
+                    $url = explode('/', $url);
+                    return print_r($url);
+                }
+
                 if(!in_array($url, (array)Route::getRoutes())) $errors[] = '[Framework59] Route does not exist for: ' . $url;
                 $errors[] = '[Framework59] Controller ' . $this->currentController . ' or Method' . $this->currentMethod . ' does not exists';
             }
             self::send404($errors);
         } 
-        try {
+        try
+        {
             $controller = new $this->currentController;
             $check = new ReflectionMethod($this->currentController, $this->currentMethod);
             if(count($check->getParameters()) > 0) return call_user_func(array($controller, $this->currentMethod), $this->params);
             return call_user_func(array($controller, $this->currentMethod));
-        } catch (\Throwable $e) { 
-            return self::send500($e);
-          } catch (\Exception $e) { 
-            return self::send500($e);
-          }
+        } 
+        catch (\Throwable $e) { 
+            $errors[] = $e;
+            self::send500($errors);
+        } 
+        catch (\Exception $e) {
+            $errors[] = $e; 
+            self::send500($errors);
+        }
         
 
     }

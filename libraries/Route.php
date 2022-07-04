@@ -15,7 +15,8 @@ class Route {
      * @param array $params (optional)
      * @return boolean
      */
-    public static function create(string $type, string $path, array $controller, array $params = []): bool {
+    public static function create(string $type, string $path, array $controller, array $params = []): bool 
+    {
         $count = count(self::$routes);
         self::$routes[] = [
             'type' => $type,
@@ -27,7 +28,8 @@ class Route {
         return count(self::$routes) > $count ? true : false;
     }
 
-    public static function getRoutes() {
+    public static function getRoutes() 
+    {
         return count(self::$routes) > 0 ? (object) self::$routes : false; 
     }
     

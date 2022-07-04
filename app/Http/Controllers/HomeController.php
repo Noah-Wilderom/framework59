@@ -7,12 +7,14 @@ use Framework59\Models\UserController;
 
 class HomeController extends Controller {
 
-    public function index($id) {
+    public function index($id) 
+    {
         new UserModel();
         UserModel::all();
         return $this->view('index');
     }
-    public function home() {
+    public function home() 
+    {
         return $this->view('home', ['testing', ' de ', 'data functionaliteit']);
     }
 }

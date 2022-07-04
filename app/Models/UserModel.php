@@ -5,7 +5,8 @@ use Framework59\Model;
 
 class UserModel extends Model {
 
-    public function __construct() {
+    public function __construct() 
+    {
         self::$table = 'users';
     }
 }

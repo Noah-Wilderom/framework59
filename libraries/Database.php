@@ -17,15 +17,19 @@ class Database {
     private $conn;
     private $error;
 
-    public function __construct() {
+    public function __construct() 
+    {
         $connection = 'mysql:host=' . $this->dbHost . ';dbname=' . $this->dbName;
         $options = array(
             PDO::ATTR_PERSISTENT => true,
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
         );
-        try {
+        try 
+        {
             $this->conn = new PDO($connection, $this->dbUser, $this->dbPass, $options);
-        } catch(PDOException $e) {
+        } 
+        catch(PDOException $e) 
+        {
             $this->error = $e->getMessage();
             echo $this->error;
         }
@@ -37,9 +41,11 @@ class Database {
     }
 
     // Bind waardes
-    public function bind($parameter, $value, $type = null) {
+    public function bind($parameter, $value, $type = null) 
+    {
         // Kijkt of $type een integer, boolean, null of string is
-        switch (is_null($type)) {
+        switch (is_null($type)) 
+        {
             case is_int($value):
                 $type = PDO::PARAM_INT;
                 break;
@@ -57,24 +63,28 @@ class Database {
     }
 
     // Execute prepared statement
-    public function execute() {
+    public function execute() 
+    {
         return $this->statement->execute();
     }
 
     // Return array 
-    public function resultSet() {
+    public function resultSet() 
+    {
         $this->execute();
         return $this->statement->fetchAll(PDO::FETCH_OBJ);
     }
 
     // Return een specifiek rij uit de database
-    public function single() {
+    public function single() 
+    {
         $this->execute();
         return $this->statement->fetch(PDO::FETCH_OBJ);
     }
 
     // Aantal rijen gevonden
-    public function rowCount() {
+    public function rowCount() 
+    {
         return $this->statement->rowCount();
     }
 }
