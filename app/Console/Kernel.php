@@ -29,12 +29,27 @@ class Kernel {
         }       
     }
 
-    public static function stubCommand(string $stub, array $keywords, string $filename) {
+    public static function stubCommand(string $stub, array $keywords) {
+        if(!file_exists('./app/stubs/' . $stub . '.stub')) return false;
+        $file = file_get_contents('./app/stubs/' . $stub . '.stub');
+
+        $arr = explode(' ', $file);
+        $i = 0;
+        foreach($arr as $word) {
+            foreach($keywords as $key => $value) {
+                if($word == $key) {
+                    $arr[$i] = $value;
+                }
+            }
+            $i++;
+        }
+
+        return implode(' ', $arr);
         
     }
 
     // this method requires one variable. the second, color, is optional
-    protected static function printColor($content, $color=null)
+    public static function printColor($content, $color=null)
     {
         
         // if a color is set use the color set.

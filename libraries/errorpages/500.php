@@ -17,10 +17,10 @@
 
         code {
             background-color: lightgrey;
-            border-radius: 5px;
+            border-radius: 0 5px;
             padding: 5px;
             color: red;
-            line-height: 35px;
+            line-height: 26px;
         }
     </style>
 </head>
@@ -28,14 +28,16 @@
     <h1>500 Error</h1>
     <p>Internal error occurred!</p>
     <?php if(config['DEBUG_MODE'] && count($errors) > 0) { ?>
-    <code>
-        <?php 
-            foreach($errors as $error) {
-                echo $error;
-                echo "<br>";
-            }
-        ?>
-    </code>
+        <div style="max-width: 50%; margin: auto;">
+            <code>
+                <?php 
+                    foreach($errors as $error) {
+                    echo "[Framework59] " . $error;
+                    echo "<br>";
+                    }
+                ?>
+            </code>
+        </div>
     <?php } ?>
 </body>
 </html>

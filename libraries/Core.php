@@ -47,11 +47,17 @@ class Core extends Controller {
             }
             self::send404($errors);
         } 
-
-        $controller = new $this->currentController;
-        $check = new ReflectionMethod($this->currentController, $this->currentMethod);
-        if(!count($check->getParameters()) > 0) return call_user_func(array($controller, $this->currentMethod), $this->params);
-        return call_user_func(array($controller, $this->currentMethod));
+        try {
+            $controller = new $this->currentController;
+            $check = new ReflectionMethod($this->currentController, $this->currentMethod);
+            if(count($check->getParameters()) > 0) return call_user_func(array($controller, $this->currentMethod), $this->params);
+            return call_user_func(array($controller, $this->currentMethod));
+        } catch (\Throwable $e) { 
+            return self::send500($e);
+          } catch (\Exception $e) { 
+            return self::send500($e);
+          }
+        
 
     }
     
@@ -67,6 +73,8 @@ class Core extends Controller {
     }
 
     public static function send500($errors) {
+        if(!is_array($errors)) $errors = [$errors];
+        
         require_once 'errorpages/500.php';
         return die();
         
@@ -75,13 +83,10 @@ class Core extends Controller {
     public static function send403($errors) {
         require_once 'errorpages/403.php';
         return die();
-        
     }
 
     public static function send404($errors) {
         require_once 'errorpages/404.php';
         return die();
-        
-        
     }
 }

@@ -7,7 +7,7 @@ use Framework59\Models\UserController;
 
 class HomeController extends Controller {
 
-    public function index() {
+    public function index($id) {
         new UserModel();
         UserModel::all();
         return $this->view('index');
